@@ -18,4 +18,4 @@
 * 가이드라인과 비교해보았을 경우 
 -> 기능 별로 어떤 기능인지 설명이 필요할 듯
 
-##### 작성한 api와 use case도 올려두었음 (user case는 src/main/resources/images)
+##### 작성한 api와 use case도 올려두었음 (user case는 src/main/resources/images, api는 issues)
