@@ -33,26 +33,31 @@ public class VoyageService {
         return voyageRepository.findAllByOrderByCreatedAtDesc().stream().map(VoyageResponseDto::new).toList();
     }
 
-    public VoyageResponseDto getVoyageContent(Long id) {
-        VoyagePost voyagePost = findVoyage(id);
+    public VoyageResponseDto getVoyageContent(String title) {
+        VoyagePost voyagePost = findVoyageByTitle(title);
         VoyageResponseDto voyageResponseDto = new VoyageResponseDto(voyagePost);
         return voyageResponseDto;
     }
 
     @Transactional
-    public Long updateVoyage(Long id, VoyageRequestDto voyageRequestDto) {
-        VoyagePost voyagePost = findVoyage(id);
-        voyagePost.update(voyageRequestDto);
-        return id;
+    public String updateVoyage(String title, VoyageRequestDto voyageRequestDto) throws Exception {
+        VoyagePost voyagePost = findVoyageByTitle(title);
+        if (isPasswordMatching(voyagePost, voyageRequestDto.getPassword())) {
+            voyagePost.update(voyageRequestDto);
+        }
+        else throw new Exception("비밀번호가 일치하지 않습니다!!");
+        return title;
     }
 
-    public Long deleteVoyage(Long id) {
+    public String deleteVoyage(String title, VoyageRequestDto voyageRequestDto) throws Exception {
         // 해당 메모가 DB에 존재하는지 확인
-        VoyagePost voyagePost = findVoyage(id);
+        VoyagePost voyagePost = findVoyageByTitle(title);
 
-        // memo 삭제
-        voyageRepository.delete(voyagePost);
-        return id;
+        if (isPasswordMatching(voyagePost, voyageRequestDto.getPassword())) {
+            voyageRepository.delete(voyagePost);
+        }
+        else throw new Exception("비밀번호가 일치하지 않습니다!!");
+        return title;
     }
 
     private VoyagePost findVoyage(Long id) {
@@ -61,4 +66,16 @@ public class VoyageService {
         );
     }
 
+    private VoyagePost findVoyageByTitle(String title) {
+        return voyageRepository.findByTitle(title).orElseThrow(() ->
+                new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
+        );
+    }
+
+    private boolean isPasswordMatching(VoyagePost voyagePost, String password) {
+        if (voyagePost.getPassword().equals(password)) {
+            return true;
+        }
+        return false;
+    }
 }
