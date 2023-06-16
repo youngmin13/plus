@@ -58,9 +58,11 @@ public class VoyageService {
 
         if (isPasswordMatching(voyagePost, voyageRequestDto.getPassword())) {
             voyageRepository.delete(voyagePost);
+            return "{\"success\":\"true\"}";
         }
-        else throw new Exception("비밀번호가 일치하지 않습니다!!");
-        return "success";
+        else {
+            throw new Exception("비밀번호가 일치하지 않습니다!!");
+        }
     }
 
     private VoyagePost findVoyage(Long id) {
