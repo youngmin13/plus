@@ -43,7 +43,7 @@ public class VoyageController {
     //- 수정을 요청할 때 수정할 데이터와 비밀번호를 같이 보내서 서버에서 비밀번호 일치 여부를 확인 한 후
     //- 제목, 작성자명, 작성 내용을 수정하고 수정된 게시글을 Client 로 반환하기
     @PutMapping("/voyages/{title}")
-    public String updateVoyage(@PathVariable String title, @RequestBody VoyageRequestDto voyageRequestDto) throws Exception {
+    public VoyageResponseDto updateVoyage(@PathVariable String title, @RequestBody VoyageRequestDto voyageRequestDto) throws Exception {
         return voyageService.updateVoyage(title, voyageRequestDto);
     }
 

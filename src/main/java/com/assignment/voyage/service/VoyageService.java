@@ -40,13 +40,16 @@ public class VoyageService {
     }
 
     @Transactional
-    public String updateVoyage(String title, VoyageRequestDto voyageRequestDto) throws Exception {
+    public VoyageResponseDto updateVoyage(String title, VoyageRequestDto voyageRequestDto) throws Exception {
         VoyagePost voyagePost = findVoyageByTitle(title);
+        VoyageResponseDto voyageResponseDto;
         if (isPasswordMatching(voyagePost, voyageRequestDto.getPassword())) {
             voyagePost.update(voyageRequestDto);
+            voyageResponseDto = new VoyageResponseDto(voyagePost);
         }
         else throw new Exception("비밀번호가 일치하지 않습니다!!");
-        return title;
+        // 수정된 게시글을 반환해야 한다.
+        return voyageResponseDto;
     }
 
     public String deleteVoyage(String title, VoyageRequestDto voyageRequestDto) throws Exception {
@@ -57,7 +60,7 @@ public class VoyageService {
             voyageRepository.delete(voyagePost);
         }
         else throw new Exception("비밀번호가 일치하지 않습니다!!");
-        return title;
+        return "success";
     }
 
     private VoyagePost findVoyage(Long id) {
