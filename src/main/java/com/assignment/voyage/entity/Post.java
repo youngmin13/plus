@@ -1,6 +1,6 @@
 package com.assignment.voyage.entity;
 
-import com.assignment.voyage.dto.VoyageRequestDto;
+import com.assignment.voyage.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "voyagepost")
 @NoArgsConstructor
-public class VoyagePost extends TimeStamped {
+public class Post extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,14 +29,14 @@ public class VoyagePost extends TimeStamped {
     @Column(name = "contents", nullable = false)
     private String contents;
 
-    public VoyagePost(VoyageRequestDto requestDto) {
+    public Post(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.username = requestDto.getUsername();
         this.password = requestDto.getPassword();
         this.contents = requestDto.getContents();
     }
 
-    public void update(VoyageRequestDto requestDto) {
+    public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.username = requestDto.getUsername();
         this.password = requestDto.getPassword();
