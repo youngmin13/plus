@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "voyagepost")
+@Table(name = "post")
 @NoArgsConstructor
 public class Post extends TimeStamped {
 
@@ -17,7 +17,7 @@ public class Post extends TimeStamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
     @Column(name = "username", nullable = false, unique = true)
@@ -29,17 +29,15 @@ public class Post extends TimeStamped {
     @Column(name = "contents", nullable = false)
     private String contents;
 
-    public Post(PostRequestDto requestDto) {
+    public Post(PostRequestDto requestDto, String username, String password) {
         this.title = requestDto.getTitle();
-        this.username = requestDto.getUsername();
-        this.password = requestDto.getPassword();
+        this.username = username;
+        this.password = password;
         this.contents = requestDto.getContents();
     }
 
     public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
-        this.username = requestDto.getUsername();
-        this.password = requestDto.getPassword();
         this.contents = requestDto.getContents();
     }
 }
