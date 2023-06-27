@@ -23,16 +23,12 @@ public class Post extends TimeStamped {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false)
-    private String password;
-
     @Column(name = "contents", nullable = false)
     private String contents;
 
-    public Post(PostRequestDto requestDto, String username, String password) {
+    public Post(PostRequestDto requestDto, String username) {
         this.title = requestDto.getTitle();
         this.username = username;
-        this.password = password;
         this.contents = requestDto.getContents();
     }
 

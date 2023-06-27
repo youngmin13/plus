@@ -47,7 +47,7 @@ public class PostService {
             );
 
             // RequestDto -> Entity
-            Post post = new Post(postRequestDto, user.getUsername(), user.getPassword());
+            Post post = new Post(postRequestDto, user.getUsername());
             //DB 저장
             Post savePost = postRepository.save(post);
             // Entity -> ResponseDto
