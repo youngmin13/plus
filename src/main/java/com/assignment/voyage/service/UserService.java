@@ -32,29 +32,41 @@ public class UserService {
     private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
     @Transactional
-    public ApiResultDto signup(SignupRequestDto requestDto) {
-        String username = requestDto.getUsername();
-        String password = passwordEncoder.encode(requestDto.getPassword());
+    public void signup(SignupRequestDto requestDto) {
 
-        // 회원 중복 확인
+        // 닉네임, 비밀번호, 비밀번호 확인을 request에서 전달받기
+        String username = requestDto.getUsername();
+        String password = requestDto.getPassword();
+        String checkPassword = requestDto.getCheckPassword();
+
+        // 데이터베이스에 존재하는 닉네임을 입력한 채 회원가입 버튼을 누른 경우 "중복된 닉네임입니다." 라는 에러메세지를 response에 포함하기
         Optional<User> checkUsername = userRepository.findByUsername(username);
         if (checkUsername.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+            throw new IllegalArgumentException("중복된 닉네임입니다.");
         }
 
-        // 사용자 ROLE 확인
-        UserRoleEnum role = UserRoleEnum.USER;
-        if (requestDto.isAdmin()) {
-            if (!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
-                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
-            }
-            role = UserRoleEnum.ADMIN;
+        // 닉네임과 같은 값이 포함된 경우 회원가입에 실패
+        if (password.contains(username)) {
+            throw new IllegalArgumentException("비밀번호에 닉네임이 포함되어서는 안됩니다.");
         }
+
+        // 비밀번호 확인은 비밀번호와 정확하게 일치하기
+        if (!password.equals(checkPassword)) {
+            throw new IllegalArgumentException("입력하신 비밀번호와 일치하지 않습니다.");
+        }
+
+        // 사용자 ROLE 확인 -> 우선은 default 값으로 USER 등록
+        UserRoleEnum role = UserRoleEnum.USER;
+//        if (requestDto.isAdmin()) {
+//            if (!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
+//                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
+//            }
+//            role = UserRoleEnum.ADMIN;
+//        }
 
         // 사용자 등록
-        User user = new User(username, password, role);
+        User user = new User(username, passwordEncoder.encode(password), role);
         userRepository.save(user);
-        return new ApiResultDto("회원가입 성공", HttpStatus.OK.value());
     }
 
     @Transactional(readOnly = true)
