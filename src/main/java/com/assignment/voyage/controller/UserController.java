@@ -37,11 +37,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ApiResultDto login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
+    public ResponseEntity<ApiResultDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
         try {
-            return userService.login(requestDto, response);
+            userService.login(requestDto, response);
+            return ResponseEntity.ok().body(new ApiResultDto("로그인 성공", HttpStatus.OK.value()));
         } catch (Exception e) {
-            return new ApiResultDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return ResponseEntity.badRequest().body(new ApiResultDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 }
