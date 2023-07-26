@@ -1,6 +1,6 @@
 package com.assignment.voyage.config;
 
-import com.assignment.voyage.jwt.JwtAuthenticationFilter;
+//import com.assignment.voyage.jwt.JwtAuthenticationFilter;
 import com.assignment.voyage.jwt.JwtAuthorizationFilter;
 import com.assignment.voyage.jwt.JwtUtil;
 import com.assignment.voyage.security.UserDetailsServiceImpl;
@@ -36,12 +36,12 @@ public class WebSecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);
-        filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
-        return filter;
-    }
+//    @Bean
+//    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+//        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);
+//        filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
+//        return filter;
+//    }
 
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
@@ -66,8 +66,9 @@ public class WebSecurityConfig {
         );
 
         // 필터 관리
-        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
+//        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

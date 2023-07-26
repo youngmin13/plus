@@ -75,9 +75,7 @@ public class UserService {
         String password = requestDto.getPassword();
 
         // 사용자 확인
-        User user = userRepository.findByUsername(username).orElseThrow(
-               null
-        );
+        User user = userRepository.findByUsername(username).orElse(null);
 
         // 비밀번호 확인
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
