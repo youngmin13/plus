@@ -32,7 +32,8 @@ public class PostService {
 
     public PostResponseDto createPost(PostRequestDto postRequestDto, HttpServletRequest request) {
 
-        String token = jwtUtil.resolveToken(request);
+        // 쿠키에서 받아오도록 바꿈
+        String token = jwtUtil.substringToken(jwtUtil.getTokenFromRequest(request));
         Claims claims;
 
         if (token != null) {
