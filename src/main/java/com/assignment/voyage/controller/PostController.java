@@ -1,6 +1,7 @@
 package com.assignment.voyage.controller;
 
 import com.assignment.voyage.dto.ApiResultDto;
+import com.assignment.voyage.dto.PostOneResponseDto;
 import com.assignment.voyage.dto.PostRequestDto;
 import com.assignment.voyage.dto.PostResponseDto;
 import com.assignment.voyage.service.PostService;
@@ -38,9 +39,9 @@ public class PostController {
     //  3. 선택한 게시글 조회 API
     //  - 선택한 게시글의 제목, 작성자명(username), 작성 날짜, 작성 내용을 조회하기
     //  (검색 기능이 아닙니다. 간단한 게시글 조회만 구현해주세요.)
-    @GetMapping("/posts/{title}")
-    public PostResponseDto getPostContent(@PathVariable String title) {
-        return postService.getPostContent(title);
+    @GetMapping("/posts/{id}")
+    public PostOneResponseDto getPostContent(@PathVariable Long id) {
+        return postService.getPostContent(id);
     }
 
     //  4. 선택한 게시글 수정 API

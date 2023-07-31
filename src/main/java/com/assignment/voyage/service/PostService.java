@@ -1,6 +1,7 @@
 package com.assignment.voyage.service;
 
 import com.assignment.voyage.dto.ApiResultDto;
+import com.assignment.voyage.dto.PostOneResponseDto;
 import com.assignment.voyage.dto.PostRequestDto;
 import com.assignment.voyage.dto.PostResponseDto;
 import com.assignment.voyage.entity.Post;
@@ -64,10 +65,10 @@ public class PostService {
         return postRepository.findAllByOrderByCreatedAtDesc().stream().map(PostResponseDto::new).toList();
     }
 
-    public PostResponseDto getPostContent(String title) {
-        Post post = findPostByTitle(title);
-        PostResponseDto postResponseDto = new PostResponseDto(post);
-        return postResponseDto;
+    public PostOneResponseDto getPostContent(Long id) {
+        Post post = findPostById(id);
+        PostOneResponseDto postOneResponseDto = new PostOneResponseDto(post);
+        return postOneResponseDto;
     }
 
     @Transactional
