@@ -74,7 +74,11 @@ public class PostService {
     @Transactional
     public PostResponseDto updatePost(Long id, PostRequestDto postRequestDto, HttpServletRequest request) throws Exception {
 
-        String token = jwtUtil.resolveToken(request);
+        // 쿠키에서 받아오도록 바꿈
+        String token = jwtUtil.substringToken(jwtUtil.getTokenFromRequest(request));
+        // token의 payload에는 정보가 담겨져 있는데
+        // 여기에 담겨진 정보의 한가지 조각을 claim이라고 한다.
+        // 따라서 token의 validation을 검사한 다음에, 토큰의 값을 claims에 담는다.
         Claims claims;
 
         PostResponseDto postResponseDto;
@@ -86,7 +90,7 @@ public class PostService {
                 throw new IllegalArgumentException("Token Error");
             }
             User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+                    () -> new IllegalArgumentException("가입한 사용자가 아닙니다.")
             );
 
             Post post = findPostById(id);
