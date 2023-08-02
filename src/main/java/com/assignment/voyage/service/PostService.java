@@ -49,7 +49,7 @@ public class PostService {
             );
 
             // RequestDto -> Entity
-            Post post = new Post(postRequestDto, user.getUsername());
+            Post post = new Post(postRequestDto, user);
             //DB 저장
             Post savePost = postRepository.save(post);
             // Entity -> ResponseDto
@@ -95,7 +95,7 @@ public class PostService {
 
             Post post = findPostById(id);
 
-            if (post.getUsername().equals(user.getUsername())) {
+            if (post.getUser().getUsername().equals(user.getUsername())) {
                 post.update(postRequestDto);
                 postResponseDto = new PostResponseDto(post);
                 // 수정된 게시글을 반환해야 한다.
@@ -126,7 +126,7 @@ public class PostService {
 
             Post post = findPostById(id);
 
-            if (post.getUsername().equals(user.getUsername())) {
+            if (post.getUser().getUsername().equals(user.getUsername())) {
                 postRepository.delete(post);
                 return new ApiResultDto("삭제 성공", HttpStatus.OK.value());
             }
