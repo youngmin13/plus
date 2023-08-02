@@ -56,8 +56,8 @@ public class PostController {
     //  5. 선택한 게시글 삭제 API
     //  - 토큰을 검사한 후, 유효한 토큰이면서 해당 사용자가 작성한 게시글만 삭제 가능
     //  - 선택한 게시글을 삭제하고 Client 로 성공했다는 메시지, 상태코드 반환하기
-    @DeleteMapping("/posts/{title}")
-    public ApiResultDto deletePost(@PathVariable String title, HttpServletRequest request) throws Exception {
-        return postService.deletePost(title, request);
+    @DeleteMapping("/posts/{id}")
+    public ApiResultDto deletePost(@PathVariable Long id, HttpServletRequest request) throws Exception {
+        return postService.deletePost(id, request);
     }
 }

@@ -106,9 +106,10 @@ public class PostService {
         else throw new IllegalArgumentException("토큰이 존재하지 않습니다.");
     }
 
-    public ApiResultDto deletePost(String title, HttpServletRequest request) throws Exception {
+    public ApiResultDto deletePost(Long id, HttpServletRequest request) throws Exception {
 
-        String token = jwtUtil.resolveToken(request);
+        // 헤더 말고 쿠키에서 토큰 받아오도록 수정
+        String token = jwtUtil.substringToken(jwtUtil.getTokenFromRequest(request));
         Claims claims;
 
         PostResponseDto postResponseDto;
@@ -123,7 +124,7 @@ public class PostService {
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
             );
 
-            Post post = findPostByTitle(title);
+            Post post = findPostById(id);
 
             if (post.getUsername().equals(user.getUsername())) {
                 postRepository.delete(post);
