@@ -11,8 +11,10 @@ import com.assignment.voyage.repository.PostRepository;
 import com.assignment.voyage.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Objects;
+import java.util.Comparator;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -130,30 +132,52 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostResponseDto> getProductListWithTitle(String title) {
+    public List<PostResponseDto> getPostListWithTitle(String title) {
 
         List<PostResponseDto> response;
-        if (Objects.isNull(title)) {
-            response = postRepository.findAll().stream()
-                    .map(m ->
-                            PostResponseDto.builder()
-                                    .title(m.getTitle())
-                                    .username(m.getUser().getUsername())
-                                    .createdAt(m.getCreatedAt())
-                                    .build())
-                    .collect(Collectors.toList());
-        }
-        else {
-            response = postRepository.getPostWithTitle(title).stream()
-                    .map(m ->
-                            PostResponseDto.builder()
-                                    .title(m.getTitle())
-                                    .username(m.getUser().getUsername())
-                                    .createdAt(m.getCreatedAt())
-                                    .build())
-                    .collect(Collectors.toList());
-        }
+        response = postRepository.getPostWithTitle(title).stream()
+                .map(m ->
+                        PostResponseDto.builder()
+                                .title(m.getTitle())
+                                .username(m.getUser().getUsername())
+                                .createdAt(m.getCreatedAt())
+                                .build())
+                .collect(Collectors.toList());
+
         return response;
+    }
+
+    @Override
+    public List<PostResponseDto> getPostListWithPage(int page, int size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return postRepository.findAll(pageRequest)
+                .stream()
+                .map(m ->
+                        PostResponseDto.builder()
+                                .title(m.getTitle())
+                                .username(m.getUser().getUsername())
+                                .createdAt(m.getCreatedAt())
+                                .build())
+                .sorted(Comparator.comparing(PostResponseDto::getCreatedAt).reversed())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostResponseDto> getPostListWithPageAndTitle(int page, int size, String title) {
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return postRepository.getPostListWithPageAndTitle(pageRequest.getOffset(), pageRequest.getPageSize(), title)
+                .stream()
+                .map(m ->
+                        PostResponseDto.builder()
+                                .title(title)
+                                .username(m.getUser().getUsername())
+                                .createdAt(m.getCreatedAt())
+                                .build())
+                .collect(Collectors.toList());
     }
 
     private Post findPostById(Long id) {

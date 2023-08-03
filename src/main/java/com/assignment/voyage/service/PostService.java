@@ -3,6 +3,7 @@ package com.assignment.voyage.service;
 import com.assignment.voyage.dto.PostOneResponseDto;
 import com.assignment.voyage.dto.PostRequestDto;
 import com.assignment.voyage.dto.PostResponseDto;
+import com.assignment.voyage.entity.Post;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -49,5 +50,21 @@ public interface PostService {
      * 해당 제목을 가진 게시글 검색
      * @param title 제목
      */
-    List<PostResponseDto> getProductListWithTitle(String title);
+    List<PostResponseDto> getPostListWithTitle(String title);
+
+    /**
+     * 원하는 페이지 사이즈 만큼 조회하는 메서드 (title 입력하면 검색까지)
+     * @param page 페이지 번호
+     * @param size 페이지 크기
+     * @return
+     */
+    List<PostResponseDto> getPostListWithPageAndTitle (int page, int size, String title);
+
+    /**
+     * JpaRepository 용 페이지 정렬
+     * @param page
+     * @param size
+     * @return
+     */
+    List<PostResponseDto> getPostListWithPage(int page, int size);
 }

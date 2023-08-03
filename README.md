@@ -48,3 +48,6 @@
   2. Spring AOP 적용 (예제 코드에 있는 것 적용)
 
 - 7/27 - QueryDSL 을 사용하여 검색 기능 만들기
+
+- 7/28 - Pageable 을 사용하여 페이징 및 정렬 기능 만들기
+  - Pageable 을 사용해서 원하는 페이지 사이즈만큼만 조회 해주세요! (JpaRepository, QueryDSL 모두)

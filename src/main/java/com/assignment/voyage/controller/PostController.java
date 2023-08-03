@@ -76,9 +76,24 @@ public class PostController {
                 .body(new ApiResultDto("게시글 삭제 성공", HttpStatus.OK.value()));
     }
 
-    @GetMapping("/findPosts")
-    public List<PostResponseDto> getProductListWithTitle(@Nullable @RequestParam("title") String title) {
+    // @RequestParam으로 줬기 때문에 url 뒤에 ?title= 이 붙어있어야함
+    @GetMapping("/findPostsWithTitle")
+    public List<PostResponseDto> getPostListWithTitle(@RequestParam("title") String title) {
 
-        return postServiceImpl.getProductListWithTitle(title);
+        return postServiceImpl.getPostListWithTitle(title);
+    }
+
+    @GetMapping("/findPostWithPage")
+    public List<PostResponseDto> getPostListWithPage (@RequestParam("page") int page,
+            @RequestParam("size") int size) {
+        return postServiceImpl.getPostListWithPage(page, size);
+    }
+
+    @GetMapping("/findPostsWithPageAndTitle")
+    public List<PostResponseDto> getPostListWithPageAndTitle (@RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("title") String title) {
+
+        return postServiceImpl.getPostListWithPageAndTitle(page, size, title);
     }
 }
