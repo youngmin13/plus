@@ -4,7 +4,7 @@ import com.assignment.voyage.dto.ApiResultDto;
 import com.assignment.voyage.dto.PostOneResponseDto;
 import com.assignment.voyage.dto.PostRequestDto;
 import com.assignment.voyage.dto.PostResponseDto;
-import com.assignment.voyage.service.PostService;
+import com.assignment.voyage.service.PostServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,10 @@ import java.util.List;
 @RequestMapping("/api")
 public class PostController {
 
-    private final PostService postService;
+    private final PostServiceImpl postServiceImpl;
 
-    public PostController(PostService postService) {
-        this.postService = postService;
+    public PostController(PostServiceImpl postServiceImpl) {
+        this.postServiceImpl = postServiceImpl;
     }
 
     //  1. 전체 게시글 목록 조회 API
@@ -27,7 +27,7 @@ public class PostController {
     //  - 작성 날짜 기준 내림차순으로 정렬하기
     @GetMapping("/posts")
     public List<PostResponseDto> getPost() {
-        return postService.getPost();
+        return postServiceImpl.getPost();
     }
 
     //  2. 게시글 작성 API
@@ -37,7 +37,7 @@ public class PostController {
     @PostMapping("/posts")
     public ResponseEntity<ApiResultDto> createPost(@RequestBody PostRequestDto postRequestDto, HttpServletRequest request) {
 
-        postService.createPost(postRequestDto, request);
+        postServiceImpl.createPost(postRequestDto, request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ApiResultDto("게시글 작성 성공", HttpStatus.CREATED.value()));
 
@@ -47,7 +47,7 @@ public class PostController {
     //  (검색 기능이 아닙니다. 간단한 게시글 조회만 구현해주세요.)
     @GetMapping("/posts/{id}")
     public PostOneResponseDto getPostContent(@PathVariable Long id) {
-        return postService.getPostContent(id);
+        return postServiceImpl.getPostContent(id);
     }
 
     //  4. 선택한 게시글 수정 API
@@ -57,7 +57,7 @@ public class PostController {
     @PutMapping("/posts/{id}")
     public ResponseEntity<ApiResultDto> updatePost(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto, HttpServletRequest request) throws Exception {
 
-        postService.updatePost(id, postRequestDto, request);
+        postServiceImpl.updatePost(id, postRequestDto, request);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body(new ApiResultDto("게시글 수정 성공", HttpStatus.ACCEPTED.value()));
 
@@ -69,7 +69,7 @@ public class PostController {
     @DeleteMapping("/posts/{id}")
     public ResponseEntity<ApiResultDto> deletePost(@PathVariable Long id, HttpServletRequest request) throws Exception {
 
-        postService.deletePost(id, request);
+        postServiceImpl.deletePost(id, request);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResultDto("게시글 삭제 성공", HttpStatus.OK.value()));
     }
