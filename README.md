@@ -28,3 +28,8 @@
 - 8/4 - 게시글과 댓글조회 API, 댓글 수정/삭제 API
   - 게시글 조회 API 호출시 해당 게시글의 댓글 목록도 응답
   - 토큰을 검사하여, 해당 사용자가 작성한 댓글만 수정/삭제 가능
+
+## 스프링 심화 코드 개선 과제
+- 7/25 -  Controller, Service 패키지 내 클래스 개선
+  - 1. Controller Advice 로 예외 공통화 처리하기
+    - @RestControllerAdvice 를 사용해서 모든 RestController 의 예외를 공통화해서 처리해주세요!

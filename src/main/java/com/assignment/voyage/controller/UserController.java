@@ -27,22 +27,15 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<ApiResultDto> signup(@Valid @RequestBody SignupRequestDto requestDto) {
 
-        try {
-            userService.signup(requestDto);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ApiResultDto("회원가입 성공", HttpStatus.CREATED.value()));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ApiResultDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
-        }
+        userService.signup(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ApiResultDto("회원가입 성공", HttpStatus.CREATED.value()));
     }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResultDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
-        try {
-            userService.login(requestDto, response);
-            return ResponseEntity.ok().body(new ApiResultDto("로그인 성공", HttpStatus.OK.value()));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ApiResultDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
-        }
+
+        userService.login(requestDto, response);
+        return ResponseEntity.ok().body(new ApiResultDto("로그인 성공", HttpStatus.OK.value()));
     }
 }

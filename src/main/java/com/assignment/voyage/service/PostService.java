@@ -31,7 +31,7 @@ public class PostService {
         this.userRepository = userRepository;
     }
 
-    public PostResponseDto createPost(PostRequestDto postRequestDto, HttpServletRequest request) {
+    public void createPost(PostRequestDto postRequestDto, HttpServletRequest request) {
 
         // 쿠키에서 받아오도록 바꿈
         String token = jwtUtil.substringToken(jwtUtil.getTokenFromRequest(request));
@@ -52,10 +52,6 @@ public class PostService {
             Post post = new Post(postRequestDto, user);
             //DB 저장
             Post savePost = postRepository.save(post);
-            // Entity -> ResponseDto
-            PostResponseDto postResponseDto = new PostResponseDto(savePost);
-
-            return postResponseDto;
         }
         else throw new IllegalArgumentException("토큰이 존재하지 않습니다.");
     }
@@ -72,7 +68,7 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto updatePost(Long id, PostRequestDto postRequestDto, HttpServletRequest request) throws Exception {
+    public void updatePost(Long id, PostRequestDto postRequestDto, HttpServletRequest request) throws Exception {
 
         // 쿠키에서 받아오도록 바꿈
         String token = jwtUtil.substringToken(jwtUtil.getTokenFromRequest(request));
@@ -97,16 +93,13 @@ public class PostService {
 
             if (post.getUser().getUsername().equals(user.getUsername())) {
                 post.update(postRequestDto);
-                postResponseDto = new PostResponseDto(post);
-                // 수정된 게시글을 반환해야 한다.
-                return postResponseDto;
             }
             else throw new IllegalArgumentException("해당 게시글을 작성한 사용자가 아닙니다.");
         }
         else throw new IllegalArgumentException("토큰이 존재하지 않습니다.");
     }
 
-    public ApiResultDto deletePost(Long id, HttpServletRequest request) throws Exception {
+    public void deletePost(Long id, HttpServletRequest request) throws Exception {
 
         // 헤더 말고 쿠키에서 토큰 받아오도록 수정
         String token = jwtUtil.substringToken(jwtUtil.getTokenFromRequest(request));
@@ -128,7 +121,6 @@ public class PostService {
 
             if (post.getUser().getUsername().equals(user.getUsername())) {
                 postRepository.delete(post);
-                return new ApiResultDto("삭제 성공", HttpStatus.OK.value());
             }
             else throw new IllegalArgumentException("해당 게시글을 작성한 사용자가 아닙니다.");
         }
