@@ -46,3 +46,5 @@
 - 7/26 - CustomException 정의 및 SpringAOP 적용
   1. CustomException 정의 (그냥 유저쪽에 1개만 적용해봤음)
   2. Spring AOP 적용 (예제 코드에 있는 것 적용)
+
+- 7/27 - QueryDSL 을 사용하여 검색 기능 만들기

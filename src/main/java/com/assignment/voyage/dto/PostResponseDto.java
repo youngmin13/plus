@@ -1,6 +1,7 @@
 package com.assignment.voyage.dto;
 
 import com.assignment.voyage.entity.Post;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -22,5 +23,12 @@ public class PostResponseDto {
 //        this.contents = post.getContents();
         this.createdAt = post.getCreatedAt();
 //        this.modifiedAt = post.getModifiedAt();
+    }
+
+    @Builder
+    public PostResponseDto (String title, String username, LocalDateTime createdAt) {
+        this.title = title;
+        this.username = username;
+        this.createdAt = createdAt;
     }
 }

@@ -11,6 +11,8 @@ import com.assignment.voyage.repository.PostRepository;
 import com.assignment.voyage.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,6 +127,33 @@ public class PostServiceImpl implements PostService {
             else throw new IllegalArgumentException("해당 게시글을 작성한 사용자가 아닙니다.");
         }
         else throw new IllegalArgumentException("토큰이 존재하지 않습니다.");
+    }
+
+    @Override
+    public List<PostResponseDto> getProductListWithTitle(String title) {
+
+        List<PostResponseDto> response;
+        if (Objects.isNull(title)) {
+            response = postRepository.findAll().stream()
+                    .map(m ->
+                            PostResponseDto.builder()
+                                    .title(m.getTitle())
+                                    .username(m.getUser().getUsername())
+                                    .createdAt(m.getCreatedAt())
+                                    .build())
+                    .collect(Collectors.toList());
+        }
+        else {
+            response = postRepository.getPostWithTitle(title).stream()
+                    .map(m ->
+                            PostResponseDto.builder()
+                                    .title(m.getTitle())
+                                    .username(m.getUser().getUsername())
+                                    .createdAt(m.getCreatedAt())
+                                    .build())
+                    .collect(Collectors.toList());
+        }
+        return response;
     }
 
     private Post findPostById(Long id) {

@@ -44,4 +44,10 @@ public interface PostService {
      * @param request 쿠키에 담긴 토큰으로 요청자 확인할 HttpServletRequest
      */
     void deletePost(Long id, HttpServletRequest request);
+
+    /**
+     * 해당 제목을 가진 게시글 검색
+     * @param title 제목
+     */
+    List<PostResponseDto> getProductListWithTitle(String title);
 }

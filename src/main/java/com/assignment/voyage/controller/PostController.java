@@ -4,7 +4,9 @@ import com.assignment.voyage.dto.ApiResultDto;
 import com.assignment.voyage.dto.PostOneResponseDto;
 import com.assignment.voyage.dto.PostRequestDto;
 import com.assignment.voyage.dto.PostResponseDto;
+import com.assignment.voyage.entity.Post;
 import com.assignment.voyage.service.PostServiceImpl;
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,5 +74,11 @@ public class PostController {
         postServiceImpl.deletePost(id, request);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResultDto("게시글 삭제 성공", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/findPosts")
+    public List<PostResponseDto> getProductListWithTitle(@Nullable @RequestParam("title") String title) {
+
+        return postServiceImpl.getProductListWithTitle(title);
     }
 }

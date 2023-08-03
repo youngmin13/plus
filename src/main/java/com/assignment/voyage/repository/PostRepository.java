@@ -5,9 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
+
+@Repository
+public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
     List<Post> findAllByOrderByCreatedAtDesc();
-    Optional<Post> findByTitle(String title);
     Optional<Post> findById(Long id);
 }
