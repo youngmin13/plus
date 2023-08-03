@@ -4,6 +4,7 @@ import com.assignment.voyage.dto.CommentRequestDto;
 import com.assignment.voyage.entity.Comment;
 import com.assignment.voyage.entity.Post;
 import com.assignment.voyage.entity.User;
+import com.assignment.voyage.exception.NotFoundUserException;
 import com.assignment.voyage.jwt.JwtUtil;
 import com.assignment.voyage.repository.CommentRepository;
 import com.assignment.voyage.repository.PostRepository;
@@ -44,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
             }
 
             User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+                    () -> new NotFoundUserException("사용자가 존재하지 않습니다.")
             );
 
             Post post = postRepository.findById(commentRequestDto.getPostId()).orElseThrow(
@@ -80,7 +81,7 @@ public class CommentServiceImpl implements CommentService {
             }
 
             User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+                    () -> new NotFoundUserException("사용자가 존재하지 않습니다.")
             );
 
             Post post = postRepository.findById(commentRequestDto.getPostId()).orElseThrow(
@@ -110,7 +111,7 @@ public class CommentServiceImpl implements CommentService {
             }
 
             User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+                    () -> new NotFoundUserException("사용자가 존재하지 않습니다.")
             );
 
             Comment comment = commentRepository.findById(id).orElseThrow(

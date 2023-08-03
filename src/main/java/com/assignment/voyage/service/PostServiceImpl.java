@@ -5,6 +5,7 @@ import com.assignment.voyage.dto.PostRequestDto;
 import com.assignment.voyage.dto.PostResponseDto;
 import com.assignment.voyage.entity.Post;
 import com.assignment.voyage.entity.User;
+import com.assignment.voyage.exception.NotFoundUserException;
 import com.assignment.voyage.jwt.JwtUtil;
 import com.assignment.voyage.repository.PostRepository;
 import com.assignment.voyage.repository.UserRepository;
@@ -44,7 +45,7 @@ public class PostServiceImpl implements PostService {
             }
 
             User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+                    () -> new NotFoundUserException("사용자가 존재하지 않습니다.")
             );
 
             // RequestDto -> Entity
@@ -86,7 +87,7 @@ public class PostServiceImpl implements PostService {
                 throw new IllegalArgumentException("Token Error");
             }
             User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("가입한 사용자가 아닙니다.")
+                    () -> new NotFoundUserException("가입한 사용자가 아닙니다.")
             );
 
             Post post = findPostById(id);
@@ -113,7 +114,7 @@ public class PostServiceImpl implements PostService {
                 throw new IllegalArgumentException("Token Error");
             }
             User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+                    () -> new NotFoundUserException("사용자가 존재하지 않습니다.")
             );
 
             Post post = findPostById(id);

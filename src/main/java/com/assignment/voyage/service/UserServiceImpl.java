@@ -4,6 +4,7 @@ import com.assignment.voyage.dto.LoginRequestDto;
 import com.assignment.voyage.dto.SignupRequestDto;
 import com.assignment.voyage.entity.User;
 import com.assignment.voyage.entity.UserRoleEnum;
+import com.assignment.voyage.exception.NotFoundUserException;
 import com.assignment.voyage.jwt.JwtUtil;
 import com.assignment.voyage.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
         // 비밀번호 확인
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("닉네임 또는 패스워드를 확인해주세요.");
+            throw new NotFoundUserException("닉네임 또는 패스워드를 확인해주세요.");
         }
 
         // JWT 생성 및 쿠키에 저장 후 Response 객체에 추가

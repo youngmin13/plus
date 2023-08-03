@@ -39,7 +39,10 @@
 
 ## 스프링 심화 코드 개선 과제
 - 7/25 -  Controller, Service 패키지 내 클래스 개선
-  - 1. Controller Advice 로 예외 공통화 처리하기
-    - @RestControllerAdvice 를 사용해서 모든 RestController 의 예외를 공통화해서 처리해주세요!
-  - 2. Service 인터페이스와 구현체 분리하여 추상화 하기
-    - Service 클래스를 인터페스와 구현체로 분리하고 인터페이스 메서드에 주석을 친절하게 달아주세요!
+  1. Controller Advice 로 예외 공통화 처리하기
+     - @RestControllerAdvice 를 사용해서 모든 RestController 의 예외를 공통화해서 처리해주세요!
+  2. Service 인터페이스와 구현체 분리하여 추상화 하기
+       - Service 클래스를 인터페스와 구현체로 분리하고 인터페이스 메서드에 주석을 친절하게 달아주세요!
+- 7/26 - CustomException 정의 및 SpringAOP 적용
+  1. CustomException 정의 (그냥 유저쪽에 1개만 적용해봤음)
+  2. Spring AOP 적용 (예제 코드에 있는 것 적용)

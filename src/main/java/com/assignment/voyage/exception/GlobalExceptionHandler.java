@@ -23,34 +23,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({NullPointerException.class})
-    public ResponseEntity<ApiResultDto> nullPointerExceptionHandler(NullPointerException ex) {
+    public ResponseEntity<ApiResultDto> notFoundUserExceptionHandler(NotFoundUserException ex) {
         ApiResultDto responseDto = new ApiResultDto(ex.getMessage(), HttpStatus.NOT_FOUND.value());
         return new ResponseEntity<>(
                 // HTTP body
                 responseDto,
                 // HTTP status code
                 HttpStatus.NOT_FOUND
-        );
-    }
-    @ExceptionHandler({RejectedExecutionException.class})
-    public ResponseEntity<ApiResultDto> RejectedExecutionException(RejectedExecutionException ex) {
-        ApiResultDto responseDto = new ApiResultDto(ex.getMessage(), HttpStatus.FORBIDDEN.value());
-        return new ResponseEntity<>(
-                // HTTP body
-                responseDto,
-                // HTTP status code
-                HttpStatus.FORBIDDEN
-        );
-    }
-
-    @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<ApiResultDto> MethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        ApiResultDto responseDto = new ApiResultDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(
-                // HTTP body
-                responseDto,
-                // HTTP status code
-                HttpStatus.BAD_REQUEST
         );
     }
 }
